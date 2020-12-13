@@ -28,6 +28,8 @@ public class CreatePost extends Activity {
     private CheckBox facebookCheckBox;
     private CheckBox instagramCheckBox;
 
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_post);
@@ -53,6 +55,7 @@ public class CreatePost extends Activity {
     }
 
 
+    //Get photo from mobile
     protected  void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
 
@@ -68,4 +71,25 @@ public class CreatePost extends Activity {
             }
         }
     }
+
+    public ImageView getImage() {
+        return image;
+    }
+
+    public EditText getPostText() {
+        return postText;
+    }
+
+    public CheckBox getTwitterCheckBox() {
+        return twitterCheckBox;
+    }
+
+    public CheckBox getFacebookCheckBox() {
+        return facebookCheckBox;
+    }
+
+    public CheckBox getInstagramCheckBox() {
+        return instagramCheckBox;
+    }
 }
+
