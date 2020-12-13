@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="173dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uploadImageButton"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/uploadImageButton"
+        android:layout_width="184dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:text="Upload Image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/postText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Enter your post message"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/uploadPostButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <CheckBox
+        android:id="@+id/twitterBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
+        android:text="Twitter"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/uploadPostButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postText" />
+
+    <CheckBox
+        android:id="@+id/facebookBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="Facebook"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/uploadPostButton"
+        app:layout_constraintStart_toStartOf="@+id/twitterBox"
+        app:layout_constraintTop_toBottomOf="@+id/twitterBox" />
+
+    <CheckBox
+        android:id="@+id/instagramBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="Instagram"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/uploadPostButton"
+        app:layout_constraintStart_toStartOf="@+id/facebookBox"
+        app:layout_constraintTop_toBottomOf="@+id/facebookBox" />
+
+    <Button
+        android:id="@+id/uploadPostButton"
+        android:layout_width="126dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="196dp"
+        android:text="Upload"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
