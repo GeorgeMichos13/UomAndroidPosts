@@ -17,7 +17,6 @@ public final class TwitterFactoryCreator extends Activity {
 
     public TwitterFactoryCreator(){
 
-
     }
     public static void createFactory(){
         ConfigurationBuilder cb = new ConfigurationBuilder();
