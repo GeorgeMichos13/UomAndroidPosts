@@ -7,11 +7,42 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/buttonStart"
+        android:id="@+id/createPostButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="64dp"
+        android:text="Create a post"
+        app:layout_constraintEnd_toEndOf="@+id/text1"
+        app:layout_constraintStart_toStartOf="@+id/text1"
+        app:layout_constraintTop_toBottomOf="@+id/text1" />
+
+    <Button
+        android:id="@+id/createStoryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Create a story"
+        app:layout_constraintEnd_toEndOf="@+id/createPostButton"
+        app:layout_constraintStart_toStartOf="@+id/createPostButton"
+        app:layout_constraintTop_toBottomOf="@+id/createPostButton" />
+
+    <Button
+        android:id="@+id/trendingsButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Trendings"
+        app:layout_constraintEnd_toEndOf="@+id/createStoryButton"
+        app:layout_constraintStart_toStartOf="@+id/createStoryButton"
+        app:layout_constraintTop_toBottomOf="@+id/createStoryButton" />
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Welcome to our App"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

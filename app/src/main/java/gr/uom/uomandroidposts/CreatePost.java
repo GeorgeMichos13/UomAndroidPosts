@@ -1,7 +1,9 @@
 package gr.uom.uomandroidposts;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -13,6 +15,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.FileNotFoundException;
 
@@ -27,6 +33,9 @@ public class CreatePost extends Activity {
     private CheckBox twitterCheckBox;
     private CheckBox facebookCheckBox;
     private CheckBox instagramCheckBox;
+    String post;
+
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
 
 
@@ -41,11 +50,15 @@ public class CreatePost extends Activity {
         uploadImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                Toast.makeText(CreatePost.this, "Load image", Toast.LENGTH_SHORT).show();
-                startActivityForResult(intent, 0);
+                    ActivityCompat.requestPermissions(CreatePost.this, new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, PERMISSION_REQUEST_CODE);
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, PERMISSION_REQUEST_CODE);
+
+
+                }
             }
-        });
+        );
+
 
 
 
@@ -55,13 +68,12 @@ public class CreatePost extends Activity {
     }
 
 
+
     //Get photo from mobile
     protected  void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
-
         if(resultCode == RESULT_OK){
             Uri targetUri = data.getData();
-            postText.setText(targetUri.toString());
             Bitmap bitmap;
             try{
                 bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
@@ -71,6 +83,8 @@ public class CreatePost extends Activity {
             }
         }
     }
+
+
 
     public ImageView getImage() {
         return image;
@@ -91,5 +105,19 @@ public class CreatePost extends Activity {
     public CheckBox getInstagramCheckBox() {
         return instagramCheckBox;
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                }
+        }
+    }
+
+
+
 }
 
