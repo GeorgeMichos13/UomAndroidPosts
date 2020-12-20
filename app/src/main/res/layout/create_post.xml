@@ -91,7 +91,7 @@
         android:id="@+id/fbLogo"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:src="@drawable/m1kjz"
+        android:src="@drawable/facebooklogo"
         app:layout_constraintBottom_toBottomOf="@+id/facebookBox"
         app:layout_constraintEnd_toEndOf="@+id/facebookBox"
         app:layout_constraintHorizontal_bias="1.0"
@@ -103,7 +103,7 @@
         android:id="@+id/twitterLogo"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:src="@drawable/twitter_logo_2012"
+        android:src="@drawable/twitterlogo"
         app:layout_constraintBottom_toBottomOf="@+id/twitterBox"
         app:layout_constraintEnd_toEndOf="@+id/twitterBox"
         app:layout_constraintHorizontal_bias="1.0"
@@ -115,10 +115,19 @@
         android:id="@+id/instagramLogo"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:src="@drawable/_200px_instagram_logo_2016_svg"
+        android:src="@drawable/instagramloco"
         app:layout_constraintBottom_toBottomOf="@+id/instagramBox"
         app:layout_constraintEnd_toEndOf="@+id/instagramBox"
         app:layout_constraintTop_toTopOf="@+id/instagramBox"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="@+id/uploadImageButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/uploadImageButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

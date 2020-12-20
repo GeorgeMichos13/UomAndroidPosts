@@ -36,6 +36,7 @@ public class CreatePost extends Activity {
 
     private Button uploadImageButton;
     private Button uploadPostButton;
+    private Button backButton;
     private ImageView image;
     private EditText postText;
     private CheckBox twitterCheckBox;
@@ -49,9 +50,17 @@ public class CreatePost extends Activity {
         setContentView(R.layout.create_post);
         uploadPostButton = findViewById(R.id.uploadPostButton);
         uploadImageButton = findViewById(R.id.uploadImageButton);
+        backButton = findViewById(R.id.backButton);
         postText = findViewById(R.id.postText);
         image = findViewById(R.id.imageView);
         twitterCheckBox = findViewById(R.id.twitterBox);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         uploadImageButton.setOnClickListener(new View.OnClickListener() {
             @Override

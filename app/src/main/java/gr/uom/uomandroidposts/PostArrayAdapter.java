@@ -59,7 +59,7 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
 
         //make them get Uri and drawable
         viewHolder.postImage.setImageURI(currentPost.getPostImage());
-        viewHolder.appIcon.setImageDrawable(currentPost.getAppIcon());
+        viewHolder.appIcon.setImageResource(R.drawable.twitterlogo);
 
 
         return convertView;

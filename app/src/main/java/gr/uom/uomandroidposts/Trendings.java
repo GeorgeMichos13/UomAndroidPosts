@@ -2,11 +2,13 @@ package gr.uom.uomandroidposts;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 public class Trendings extends Activity {
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
