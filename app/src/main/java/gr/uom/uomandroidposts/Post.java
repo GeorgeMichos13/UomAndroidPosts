@@ -8,8 +8,9 @@ public class Post {
 
     private String username;
     private String post;
-    private Uri postImage;
+    private String postImage;
     private  Drawable appIcon;
+
 
     public String getUsername() {
         return username;
@@ -27,11 +28,11 @@ public class Post {
         this.post = post;
     }
 
-    public Uri getPostImage() {
+    public String getPostImage() {
         return postImage;
     }
 
-    public void setPostImage(Uri postImage) {
+    public void setPostImage(String postImage) {
         this.postImage = postImage;
     }
 
@@ -41,5 +42,13 @@ public class Post {
 
     public void setAppIcon(Drawable appIcon) {
         this.appIcon = appIcon;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "username='" + username + '\'' +
+                ", post='" + post + '\'' +
+                '}';
     }
 }

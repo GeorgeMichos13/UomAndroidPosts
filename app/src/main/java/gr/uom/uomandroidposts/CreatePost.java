@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -44,6 +45,7 @@ public class CreatePost extends Activity {
     private CheckBox instagramCheckBox;
     private String targetUriPath=null;
     private static final int PERMISSION_REQUEST_CODE = 1;
+    private String textToUpload;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,25 +77,17 @@ public class CreatePost extends Activity {
         uploadPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String textToUpload = postText.getText().toString();
+                TwitterFactoryCreator.createFactory();
+                TwitterFactory tf = TwitterFactoryCreator.getTwitterFactory();
+                Twitter twitter = tf.getInstance();
+                textToUpload = postText.getText().toString();
                 if (twitterCheckBox.isChecked())
                 {
                     if(!textToUpload.equals("Enter your post message"))
                     {
-                        TwitterFactoryCreator.createFactory();
-                        TwitterFactory tf = TwitterFactoryCreator.getTwitterFactory();
-                        Twitter twitter = tf.getInstance();
-                        try {
-                            StatusUpdate status = new StatusUpdate(textToUpload);
-                            if(targetUriPath!=null)
-                            {
-                                status.setMedia(new File(targetUriPath));
-                            }
-                            twitter.updateStatus(status);
-                        } catch (TwitterException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
+
+                        UploadPost upload = new UploadPost();
+                        upload.execute(twitter);
                     }
                     else
                     {
@@ -149,7 +143,31 @@ public class CreatePost extends Activity {
         }
     }
 
+    private class UploadPost extends AsyncTask<Twitter, Integer, Void>
+    {
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(CreatePost.this, "Upload complete.", Toast.LENGTH_SHORT).show();
+        }
 
+        @Override
+        protected Void doInBackground(Twitter... twitters)//κανει upload στο background
+        {
+            try {
+                StatusUpdate status = new StatusUpdate(textToUpload);
+                if(targetUriPath!=null)
+                {
+                    status.setMedia(new File(targetUriPath));
+                }
+                twitters[0].updateStatus(status);
+            } catch (TwitterException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
 }
 

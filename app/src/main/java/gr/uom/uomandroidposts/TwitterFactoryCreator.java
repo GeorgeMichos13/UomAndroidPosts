@@ -24,7 +24,8 @@ public final class TwitterFactoryCreator extends Activity {
                 .setOAuthConsumerKey("zr3Q5hYpxn5e1GIZYYOizK542")
                 .setOAuthConsumerSecret("Zu34DV0ysbsNvsOILC02qLtfL1FnTC4U0R37YksIvbvXmTGUQk")
                 .setOAuthAccessToken("1288886721933914112-4vmgUaVW8rJTq1XhpgbjpA0UnHNhb6")
-                .setOAuthAccessTokenSecret("xAKubAaNqm8kSixI3momFMbU8jfttoNlnrPMgA5xqIAQK");
+                .setOAuthAccessTokenSecret("xAKubAaNqm8kSixI3momFMbU8jfttoNlnrPMgA5xqIAQK")
+                .setTweetModeExtended(true);
         tf = new TwitterFactory(cb.build());
     }
 
