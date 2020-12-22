@@ -32,7 +32,8 @@
 
         <activity android:name=".CreatePost" />
         <activity android:name=".CreateStory" />
-        <activity android:name=".Trendings" />
+        <activity android:name=".TrendingTweets" />
+        <activity android:name=".TrendingHastags" />
     </application>
 
 </manifest>

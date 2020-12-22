@@ -7,15 +7,6 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
-
-import twitter4j.ResponseList;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.conf.ConfigurationBuilder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
      trendingsButton.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-             Intent trends = new Intent(MainActivity.this, Trendings.class);
+             Intent trends = new Intent(MainActivity.this, TrendingHastags.class);
              startActivity(trends);
          }
      });

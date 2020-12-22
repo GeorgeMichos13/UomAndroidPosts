@@ -1,11 +1,15 @@
 package gr.uom.uomandroidposts;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Adapter;
-import android.widget.Button;
 import android.widget.ListView;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +22,28 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
-public class Trendings extends Activity {
+import static gr.uom.uomandroidposts.R.drawable.instagramloco;
+
+public class TrendingTweets extends Activity {
+
     private PostArrayAdapter postArrayAdapter;
     private Trends trends;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.trendings);
+        setContentView(R.layout.trending_tweets);
 
         ListView postListView = findViewById(R.id.postListView);
+
         TwitterFactoryCreator.createFactory();
         TwitterFactory tf = TwitterFactoryCreator.getTwitterFactory();
         Twitter twitter = tf.getInstance();
+
         PostsAsync task = new PostsAsync();
         task.execute(twitter);
 
 
-        postArrayAdapter = new PostArrayAdapter(this, R.layout.list_records, new ArrayList<Post>(), postListView);
+        postArrayAdapter = new PostArrayAdapter(this, R.layout.list_records_tweets, new ArrayList<Post>(), postListView);
 
 
         //data download
@@ -47,6 +57,10 @@ public class Trendings extends Activity {
         @Override
         protected List<Post> doInBackground(Twitter... twitters)//ψαχνει για τα ποστ με query συνταγμα πχ
         {
+           // String keyword;
+            //TrendingHastags trends = null;
+            //keyword = trends.getKeyword();
+
             ArrayList<Post> postList = new ArrayList<Post>();
             Query query = new Query("FolliFollie");
             QueryResult result = null;
@@ -81,7 +95,6 @@ public class Trendings extends Activity {
                         post.setPostImage(m.getMediaURL());
                         System.out.println(m.getMediaURL());
                     }
-
 
 
                     //εδω τα τραβας ολα γενικα για να εμφανισεις στο ui

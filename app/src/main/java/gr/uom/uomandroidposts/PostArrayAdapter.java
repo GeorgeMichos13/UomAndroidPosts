@@ -16,12 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
-
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 public class PostArrayAdapter extends ArrayAdapter<Post> {
@@ -75,9 +70,7 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
 
 
 
-        //make them get Uri and drawable
-//
-       // viewHolder.appIcon.setImageResource(R.drawable.twitterlogo);
+       viewHolder.appIcon.setImageResource(R.drawable.twitterlogo);
 
 
         return convertView;

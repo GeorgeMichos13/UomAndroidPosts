@@ -9,7 +9,7 @@ public class Post {
     private String username;
     private String post;
     private String postImage;
-    private  Drawable appIcon;
+    private String appIcon;
 
 
     public String getUsername() {
@@ -36,11 +36,11 @@ public class Post {
         this.postImage = postImage;
     }
 
-    public Drawable getAppIcon() {
+    public String  getAppIcon() {
         return appIcon;
     }
 
-    public void setAppIcon(Drawable appIcon) {
+    public void setAppIcon(String appIcon) {
         this.appIcon = appIcon;
     }
 
