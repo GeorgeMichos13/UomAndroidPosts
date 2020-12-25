@@ -4,12 +4,24 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 
+import twitter4j.Trend;
+
 public class Post {
 
     private String username;
     private String post;
     private String postImage;
     private String appIcon;
+
+    public String getHastag() {
+        return hastag;
+    }
+
+    public void setHastag(String hastag) {
+        this.hastag = hastag;
+    }
+
+    private String hastag;
 
 
     public String getUsername() {
@@ -51,4 +63,6 @@ public class Post {
                 ", post='" + post + '\'' +
                 '}';
     }
+
+
 }

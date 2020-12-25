@@ -2,6 +2,7 @@ package gr.uom.uomandroidposts;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -27,7 +28,14 @@ import static gr.uom.uomandroidposts.R.drawable.instagramloco;
 public class TrendingTweets extends Activity {
 
     private PostArrayAdapter postArrayAdapter;
-    private Trends trends;
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    private String keyword;
+
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +65,15 @@ public class TrendingTweets extends Activity {
         @Override
         protected List<Post> doInBackground(Twitter... twitters)//ψαχνει για τα ποστ με query συνταγμα πχ
         {
-           // String keyword;
-            //TrendingHastags trends = null;
-            //keyword = trends.getKeyword();
+
 
             ArrayList<Post> postList = new ArrayList<Post>();
-            Query query = new Query("FolliFollie");
+            Intent i = getIntent();
+            keyword = i.getStringExtra("keyword");
+            System.out.println(keyword + "leksi");
+            Query query = new Query(keyword);
             QueryResult result = null;
+
             try {
                 result = twitters[0].search(query);
 
@@ -116,28 +126,6 @@ public class TrendingTweets extends Activity {
         }
     }
 
-    private class TrendsAsync extends AsyncTask<Twitter, Integer, Trends> //εδω παιρνεις trends ασυγχρονα
-    {
-
-        @Override
-        protected Trends doInBackground(Twitter... twitters) {
-            try {
-                trends = twitters[0].getPlaceTrends(23424833);//trends για ελλαδα
-            } catch (TwitterException e) {
-                e.printStackTrace();
-            }
-            return trends;
-        }
-
-        @Override
-        protected void onPostExecute(Trends trends) {
-            super.onPostExecute(trends);
-            for (int i = 0; i < trends.getTrends().length; i++) {
-                System.out.println(trends.getTrends()[i].getName()); //εδω θα τα παρεις για το ui
-            }
-
-        }
-    }
 
 
 
