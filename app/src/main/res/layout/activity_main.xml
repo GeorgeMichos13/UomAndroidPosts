@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#000000">
 
     <Button
         android:id="@+id/createPostButton"
@@ -12,9 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:text="Create a post"
-        app:layout_constraintEnd_toEndOf="@+id/text1"
-        app:layout_constraintStart_toStartOf="@+id/text1"
-        app:layout_constraintTop_toBottomOf="@+id/text1" />
+        app:layout_constraintEnd_toEndOf="@+id/welcomeText"
+        app:layout_constraintStart_toStartOf="@+id/welcomeText"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
 
     <Button
         android:id="@+id/createStoryButton"
@@ -37,11 +38,12 @@
         app:layout_constraintTop_toBottomOf="@+id/createStoryButton" />
 
     <TextView
-        android:id="@+id/text1"
+        android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Welcome to our App"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

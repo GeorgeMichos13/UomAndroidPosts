@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 
+import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -27,6 +28,14 @@ public final class TwitterFactoryCreator extends Activity {
                 .setOAuthAccessTokenSecret("xAKubAaNqm8kSixI3momFMbU8jfttoNlnrPMgA5xqIAQK")
                 .setTweetModeExtended(true);
         tf = new TwitterFactory(cb.build());
+    }
+
+    public static Twitter createConnection(){
+        TwitterFactoryCreator.createFactory();
+        TwitterFactory tf = TwitterFactoryCreator.getTwitterFactory();
+        Twitter twitter = tf.getInstance();
+
+        return twitter;
     }
 
 }

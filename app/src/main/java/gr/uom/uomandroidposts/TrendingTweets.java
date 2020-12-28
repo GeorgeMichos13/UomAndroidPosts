@@ -1,33 +1,33 @@
 package gr.uom.uomandroidposts;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
-
+import java.util.AbstractSequentialList;
 import java.util.ArrayList;
 import java.util.List;
 
 import twitter4j.MediaEntity;
+import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.QueryResult;
-import twitter4j.Trends;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-
-import static gr.uom.uomandroidposts.R.drawable.instagramloco;
+import twitter4j.User;
 
 public class TrendingTweets extends Activity {
 
     private PostArrayAdapter postArrayAdapter;
+
+
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
@@ -36,19 +36,32 @@ public class TrendingTweets extends Activity {
     private String keyword;
 
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trending_tweets);
 
         ListView postListView = findViewById(R.id.postListView);
-
-        TwitterFactoryCreator.createFactory();
-        TwitterFactory tf = TwitterFactoryCreator.getTwitterFactory();
-        Twitter twitter = tf.getInstance();
+        Twitter twitter = TwitterFactoryCreator.createConnection();
 
         PostsAsync task = new PostsAsync();
         task.execute(twitter);
+        List<Post> postList = (List<Post>)task.doInBackground(twitter);
+
+
+        postListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Twitter twitter = TwitterFactoryCreator.createConnection();
+                Long tweetID = postList.get(position).getID();
+                String username = postList.get(position).getUsername();
+                List<Status> list = getReplies(username,tweetID);
+                System.out.println("replies" + list);
+
+            }
+        });
+
+
+
 
 
         postArrayAdapter = new PostArrayAdapter(this, R.layout.list_records_tweets, new ArrayList<Post>(), postListView);
@@ -74,6 +87,8 @@ public class TrendingTweets extends Activity {
             Query query = new Query(keyword);
             QueryResult result = null;
 
+            ArrayList<twitter4j.Status> replies = null;
+
             try {
                 result = twitters[0].search(query);
 
@@ -83,11 +98,13 @@ public class TrendingTweets extends Activity {
             for (twitter4j.Status status : result.getTweets()) {
                 Post post = new Post();
                 post.setUsername(status.getUser().getScreenName());
+                post.setID(status.getId());
                 if (status.getRetweetedStatus() != null) {
                     post.setPost(status.getRetweetedStatus().getText());
                 } else if (status.getRetweetedStatus() == null) {
                     post.setPost(status.getText());
                 }
+
                 //αποτελεσματα απο ποστς
                 //System.out.println("@" + status.getUser().getScreenName() + " : " + status.getText());
                 //παιρνεις το username το post text
@@ -126,6 +143,30 @@ public class TrendingTweets extends Activity {
         }
     }
 
+    public ArrayList<Status> getReplies(String screenName, long tweetID) {
+        ArrayList<Status> replies = new ArrayList<>();
+
+        try {
+            Query query = new Query("to:" + screenName + " since_id:" + tweetID);
+            QueryResult results;
+            Twitter twitter = TwitterFactoryCreator.createConnection();
+
+            do {
+                results = twitter.search(query);
+                System.out.println("Results: " + results.getTweets().size());
+                List<Status> tweets = results.getTweets();
+
+
+                for (Status tweet : tweets)
+                    if (tweet.getInReplyToStatusId() == tweetID)
+                        replies.add(tweet);
+            } while ((query = results.nextQuery()) != null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return replies;
+    }
 
 
 

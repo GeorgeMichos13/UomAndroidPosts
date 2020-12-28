@@ -52,9 +52,8 @@ public class TrendingHastags extends Activity {
             }
         });
 
-        TwitterFactoryCreator.createFactory();
-        TwitterFactory tf = TwitterFactoryCreator.getTwitterFactory();
-        Twitter twitter = tf.getInstance();
+
+        Twitter twitter = TwitterFactoryCreator.createConnection();
 
         TrendsAsync task = new TrendsAsync();
         task.execute(twitter);
@@ -80,16 +79,8 @@ public class TrendingHastags extends Activity {
                     startActivity(trendingTweets);
                 }
 
-                System.out.println(keyword + "search key");
 
 
-            }
-        });
-
-        keywordText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                keywordText.setText(" ");
             }
         });
 

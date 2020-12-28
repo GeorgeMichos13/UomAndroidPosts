@@ -12,6 +12,15 @@ public class Post {
     private String post;
     private String postImage;
     private String appIcon;
+    private Long ID;
+
+    public Long getID() {
+        return ID;
+    }
+
+    public void setID(Long ID) {
+        this.ID = ID;
+    }
 
     public String getHastag() {
         return hastag;
@@ -61,6 +70,7 @@ public class Post {
         return "Post{" +
                 "username='" + username + '\'' +
                 ", post='" + post + '\'' +
+                "ID='" + ID + '\'' +
                 '}';
     }
 
