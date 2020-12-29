@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,6 +24,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareButton;
+import com.facebook.share.widget.ShareDialog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,6 +56,8 @@ public class CreatePost extends Activity {
     private String targetUriPath=null;
     private static final int PERMISSION_REQUEST_CODE = 1;
     private String textToUpload;
+    private ShareButton sbLink;
+    private Bitmap bitmap=null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +68,11 @@ public class CreatePost extends Activity {
         postText = findViewById(R.id.postText);
         image = findViewById(R.id.imageView);
         twitterCheckBox = findViewById(R.id.twitterBox);
+        sbLink = findViewById(R.id.shareButton);
+        facebookCheckBox = findViewById(R.id.facebookBox);
+
+        ShareDialog shareDialog = new ShareDialog(this);
+        CallbackManager callBackManager = CallbackManager.Factory.create();
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +110,41 @@ public class CreatePost extends Activity {
                     {
                         Toast.makeText(CreatePost.this, "Please enter text.", Toast.LENGTH_SHORT).show();
                     }
+
+                }
+                if (facebookCheckBox.isChecked())
+                {
+                    shareDialog.registerCallback(callBackManager, new FacebookCallback<Sharer.Result>() {
+                        @Override
+                        public void onSuccess(Sharer.Result result) {
+
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+
+                        @Override
+                        public void onError(FacebookException error) {
+
+                        }
+                    });
+                    image.invalidate();
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable)image.getDrawable();
+                    Bitmap bitmap2 = bitmapDrawable.getBitmap();
+                    SharePhoto sharePhoto = new SharePhoto.Builder()
+                            .setBitmap(bitmap2)
+                            .build();
+
+                    SharePhotoContent sharePhotoContent = new SharePhotoContent.Builder()
+                            .addPhoto(sharePhoto)
+                            .build();
+                    if(ShareDialog.canShow(SharePhotoContent.class))
+                    {
+                        shareDialog.show(sharePhotoContent);
+                    }
+                    sbLink.setShareContent(sharePhotoContent);
 
                 }
             }
