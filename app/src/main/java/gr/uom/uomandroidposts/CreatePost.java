@@ -71,6 +71,8 @@ public class CreatePost extends Activity {
         sbLink = findViewById(R.id.shareButton);
         facebookCheckBox = findViewById(R.id.facebookBox);
 
+        postText.setVisibility(View.INVISIBLE);
+
         ShareDialog shareDialog = new ShareDialog(this);
         CallbackManager callBackManager = CallbackManager.Factory.create();
 
@@ -91,6 +93,16 @@ public class CreatePost extends Activity {
             }
         );
 
+        twitterCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(twitterCheckBox.isChecked()){
+                    postText.setVisibility(View.VISIBLE);
+                }else
+                    postText.setVisibility(View.INVISIBLE);
+            }
+        });
+
         uploadPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +112,7 @@ public class CreatePost extends Activity {
                 textToUpload = postText.getText().toString();
                 if (twitterCheckBox.isChecked())
                 {
+
                     if(!textToUpload.equals("Enter your post message"))
                     {
 

@@ -4,9 +4,11 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 
+import java.io.Serializable;
+
 import twitter4j.Trend;
 
-public class Post {
+public class Post implements Serializable {
 
     private String username;
     private String post;

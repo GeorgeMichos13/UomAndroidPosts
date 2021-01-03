@@ -53,7 +53,7 @@
 
         <activity android:name=".CreatePost" />
         <activity android:name=".CreateStory" />
-        <activity android:name=".TrendingTweets" />
+        <activity android:name=".TweetsAndReplies" />
         <activity android:name=".TrendingHastags" />
     </application>
 

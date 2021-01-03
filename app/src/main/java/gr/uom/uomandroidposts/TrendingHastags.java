@@ -19,7 +19,6 @@ import twitter4j.Trend;
 import twitter4j.Trends;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 
 public class TrendingHastags extends Activity {
 
@@ -45,7 +44,7 @@ public class TrendingHastags extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String hastag =((TextView)view.findViewById(R.id.trendingHastag)).getText().toString();
 
-                Intent trendingTweets = new Intent(TrendingHastags.this, TrendingTweets.class);
+                Intent trendingTweets = new Intent(TrendingHastags.this, TweetsAndReplies.class);
                 trendingTweets.putExtra("keyword", hastag);
                 startActivity(trendingTweets);
 
@@ -68,7 +67,7 @@ public class TrendingHastags extends Activity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent trendingTweets = new Intent(TrendingHastags.this, TrendingTweets.class);
+                Intent trendingTweets = new Intent(TrendingHastags.this, TweetsAndReplies.class);
 
                 keyword = keywordText.getText().toString();
                 if(keyword.equalsIgnoreCase("Enter your keyword hastag") || keyword.equalsIgnoreCase(" ")){

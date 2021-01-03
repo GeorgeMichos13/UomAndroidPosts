@@ -69,6 +69,8 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
         viewHolder.username.setText(currentPost.getUsername()+"");
         viewHolder.post.setText(currentPost.getPost()+"");
 
+
+
         DownloadImageTask dlImage = new DownloadImageTask(viewHolder.postImage);
         if(currentPost.getPostImage()!="")
         {
