@@ -3,6 +3,10 @@ package gr.uom.uomandroidposts;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Bundle;
+import android.os.PersistableBundle;
+
+import androidx.annotation.Nullable;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -12,9 +16,11 @@ public final class TwitterFactoryCreator extends Activity {
 
     private static TwitterFactory tf;
 
+
     public static TwitterFactory getTwitterFactory() {
         return tf;
     }
+
 
     public TwitterFactoryCreator(){
 

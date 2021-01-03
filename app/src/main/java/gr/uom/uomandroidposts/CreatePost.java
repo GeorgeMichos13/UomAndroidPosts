@@ -28,6 +28,7 @@ import androidx.core.content.ContextCompat;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.appevents.internal.Constants;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
@@ -54,10 +55,12 @@ public class CreatePost extends Activity {
     private CheckBox facebookCheckBox;
     private CheckBox instagramCheckBox;
     private String targetUriPath=null;
+    private Uri targetUri=null;
     private static final int PERMISSION_REQUEST_CODE = 1;
     private String textToUpload;
     private ShareButton sbLink;
     private Bitmap bitmap=null;
+    private TwitterFactoryCreator TFC;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +73,7 @@ public class CreatePost extends Activity {
         twitterCheckBox = findViewById(R.id.twitterBox);
         sbLink = findViewById(R.id.shareButton);
         facebookCheckBox = findViewById(R.id.facebookBox);
+        instagramCheckBox = findViewById(R.id.instagramBox);
 
         postText.setVisibility(View.INVISIBLE);
 
@@ -106,7 +110,7 @@ public class CreatePost extends Activity {
         uploadPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TwitterFactoryCreator.createFactory();
+                TFC.createFactory();
                 TwitterFactory tf = TwitterFactoryCreator.getTwitterFactory();
                 Twitter twitter = tf.getInstance();
                 textToUpload = postText.getText().toString();
@@ -127,40 +131,46 @@ public class CreatePost extends Activity {
                 }
                 if (facebookCheckBox.isChecked())
                 {
-                    shareDialog.registerCallback(callBackManager, new FacebookCallback<Sharer.Result>() {
-                        @Override
-                        public void onSuccess(Sharer.Result result) {
-
-                        }
-
-                        @Override
-                        public void onCancel() {
-
-                        }
-
-                        @Override
-                        public void onError(FacebookException error) {
-
-                        }
-                    });
-                    image.invalidate();
-                    BitmapDrawable bitmapDrawable = (BitmapDrawable)image.getDrawable();
-                    Bitmap bitmap2 = bitmapDrawable.getBitmap();
-                    SharePhoto sharePhoto = new SharePhoto.Builder()
-                            .setBitmap(bitmap2)
-                            .build();
-
-                    SharePhotoContent sharePhotoContent = new SharePhotoContent.Builder()
-                            .addPhoto(sharePhoto)
-                            .build();
-                    if(ShareDialog.canShow(SharePhotoContent.class))
+                    if (targetUri!=null)
                     {
-                        shareDialog.show(sharePhotoContent);
+                        image.invalidate();
+                        BitmapDrawable bitmapDrawable = (BitmapDrawable)image.getDrawable();
+                        Bitmap bitmap2 = bitmapDrawable.getBitmap();
+                        SharePhoto sharePhoto = new SharePhoto.Builder()
+                                .setBitmap(bitmap2)
+                                .build();
+
+                        SharePhotoContent sharePhotoContent = new SharePhotoContent.Builder()
+                                .addPhoto(sharePhoto)
+                                .build();
+                        if(ShareDialog.canShow(SharePhotoContent.class))
+                        {
+                            shareDialog.show(sharePhotoContent);
+                        }
+                        sbLink.setShareContent(sharePhotoContent);
                     }
-                    sbLink.setShareContent(sharePhotoContent);
+                    else
+                        Toast.makeText(CreatePost.this, "You need to upload an image to post on facebook.", Toast.LENGTH_SHORT).show();
+
+
+                }
+                if (instagramCheckBox.isChecked())
+                {
+                    if(targetUri!=null)
+                    {
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("image/*");
+                        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM,targetUri);
+                        shareIntent.setPackage("com.instagram.android");
+                        startActivity(shareIntent);
+                    }
+                    else
+                        Toast.makeText(CreatePost.this, "You need to upload an image to post on instagram.", Toast.LENGTH_SHORT).show();
 
                 }
             }
+
         });
         postText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,7 +184,7 @@ public class CreatePost extends Activity {
     protected  void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
         if(resultCode == RESULT_OK){
-            Uri targetUri = data.getData();
+            targetUri = data.getData();
             targetUriPath = getRealPathFromURI(targetUri);
             Bitmap bitmap;
             try{

@@ -2,6 +2,7 @@ package gr.uom.uomandroidposts;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -15,6 +16,10 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import static com.facebook.HttpMethod.GET;
+import static gr.uom.uomandroidposts.R.string.twitter_access_token;
+import static java.lang.Enum.valueOf;
+
 public class MainActivity extends AppCompatActivity {
 
     Button createPostButton;
@@ -23,11 +28,16 @@ public class MainActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private LoginButton loginButton;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
+        System.out.println(getString(R.string.twitter_API_key));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
