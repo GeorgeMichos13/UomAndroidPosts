@@ -55,6 +55,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postImageView" />
 
+    <TextView
+        android:id="@+id/favCount"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/favButton"
+        app:layout_constraintTop_toBottomOf="@+id/postImageView" />
+
+    <TextView
+        android:id="@+id/retweetCount"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/retweetButton"
+        app:layout_constraintTop_toBottomOf="@+id/postImageView" />
+
+    <Button
+        android:id="@+id/retweetButton"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/favButton"
+        app:layout_constraintTop_toBottomOf="@+id/postImageView" />
+
     >
 
 </androidx.constraintlayout.widget.ConstraintLayout>

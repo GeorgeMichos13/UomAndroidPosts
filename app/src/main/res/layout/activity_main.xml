@@ -12,11 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="200dp"
+        android:layout_marginBottom="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trendingsButton" />
+        app:layout_constraintEnd_toEndOf="@+id/trendingsButton"
+        app:layout_constraintStart_toStartOf="@+id/trendingsButton" />
 
     <Button
         android:id="@+id/createPostButton"
@@ -29,24 +28,14 @@
         app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
 
     <Button
-        android:id="@+id/createStoryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Create a story"
-        app:layout_constraintEnd_toEndOf="@+id/createPostButton"
-        app:layout_constraintStart_toStartOf="@+id/createPostButton"
-        app:layout_constraintTop_toBottomOf="@+id/createPostButton" />
-
-    <Button
         android:id="@+id/trendingsButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Trendings"
-        app:layout_constraintEnd_toEndOf="@+id/createStoryButton"
-        app:layout_constraintStart_toStartOf="@+id/createStoryButton"
-        app:layout_constraintTop_toBottomOf="@+id/createStoryButton" />
+        app:layout_constraintEnd_toEndOf="@+id/createPostButton"
+        app:layout_constraintStart_toStartOf="@+id/createPostButton"
+        app:layout_constraintTop_toBottomOf="@+id/createPostButton" />
 
     <TextView
         android:id="@+id/welcomeText"

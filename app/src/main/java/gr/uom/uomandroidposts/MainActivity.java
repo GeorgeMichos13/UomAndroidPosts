@@ -17,13 +17,12 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import static com.facebook.HttpMethod.GET;
-import static gr.uom.uomandroidposts.R.string.twitter_access_token;
+//import static gr.uom.uomandroidposts.R.string.twitter_access_token;
 import static java.lang.Enum.valueOf;
 
 public class MainActivity extends AppCompatActivity {
 
     Button createPostButton;
-    Button createStoryButton;
     Button trendingsButton;
     private CallbackManager callbackManager;
     private LoginButton loginButton;
@@ -37,14 +36,13 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
         StrictMode.setThreadPolicy(policy);
-        System.out.println(getString(R.string.twitter_API_key));
+        //System.out.println(getString(R.string.twitter_API_key));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
         createPostButton = findViewById(R.id.createPostButton);
-        createStoryButton = findViewById(R.id.createStoryButton);
         trendingsButton = findViewById(R.id.trendingsButton);
         loginButton = findViewById(R.id.login_button);
         callbackManager = CallbackManager.Factory.create();
@@ -57,13 +55,7 @@ public class MainActivity extends AppCompatActivity {
          }
      });
 
-     createStoryButton.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             Intent story = new Intent(MainActivity.this, CreateStory.class);
-             startActivity(story);
-         }
-     });
+
 
      trendingsButton.setOnClickListener(new View.OnClickListener() {
          @Override

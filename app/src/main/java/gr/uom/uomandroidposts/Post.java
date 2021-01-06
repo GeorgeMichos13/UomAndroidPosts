@@ -15,6 +15,21 @@ public class Post implements Serializable {
     private String postImage;
     private String appIcon;
     private Long ID;
+    private int isFavorited;
+    private long favCount;
+    private long retweetCount;
+
+    public long getRetweetCount() { return retweetCount; }
+
+    public void setRetweetCount(long retweetCount) { this.retweetCount = retweetCount; }
+
+    public long getFavCount() { return favCount; }
+
+    public void setFavCount(long favCount) { this.favCount = favCount; }
+
+    public void setFavorited(int favorited) { isFavorited = favorited; }
+
+    public int isFavorited() { return isFavorited; }
 
     public Long getID() {
         return ID;

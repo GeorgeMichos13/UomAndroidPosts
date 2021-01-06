@@ -23,6 +23,7 @@ import twitter4j.TwitterException;
 public class TrendingHastags extends Activity {
 
     private Button searchButton;
+    private Button backButton;
     private EditText keywordText;
     private Trends trends;
 
@@ -44,7 +45,7 @@ public class TrendingHastags extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String hastag =((TextView)view.findViewById(R.id.trendingHastag)).getText().toString();
 
-                Intent trendingTweets = new Intent(TrendingHastags.this, TweetsAndReplies.class);
+                Intent trendingTweets = new Intent(TrendingHastags.this, FreshTweets.class);
                 trendingTweets.putExtra("keyword", hastag);
                 startActivity(trendingTweets);
 
@@ -62,12 +63,13 @@ public class TrendingHastags extends Activity {
 
 
         searchButton = findViewById(R.id.searchButton);
+        backButton = findViewById(R.id.backButton3);
         keywordText = findViewById(R.id.keywordText);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent trendingTweets = new Intent(TrendingHastags.this, TweetsAndReplies.class);
+                Intent trendingTweets = new Intent(TrendingHastags.this, FreshTweets.class);
 
                 keyword = keywordText.getText().toString();
                 if(keyword.equalsIgnoreCase("Enter your keyword hastag") || keyword.equalsIgnoreCase(" ")){
@@ -77,9 +79,13 @@ public class TrendingHastags extends Activity {
                     trendingTweets.putExtra("keyword", keyword);
                     startActivity(trendingTweets);
                 }
+            }
+        });
 
-
-
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

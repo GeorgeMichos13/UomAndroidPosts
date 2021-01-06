@@ -1,12 +1,6 @@
 package gr.uom.uomandroidposts;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Resources;
-import android.os.Bundle;
-import android.os.PersistableBundle;
-
-import androidx.annotation.Nullable;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -25,7 +19,7 @@ public final class TwitterFactoryCreator extends Activity {
     public TwitterFactoryCreator(){
 
     }
-    public static void createFactory(){
+    public static Twitter createFactory(){
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey("zr3Q5hYpxn5e1GIZYYOizK542")
@@ -34,6 +28,7 @@ public final class TwitterFactoryCreator extends Activity {
                 .setOAuthAccessTokenSecret("xAKubAaNqm8kSixI3momFMbU8jfttoNlnrPMgA5xqIAQK")
                 .setTweetModeExtended(true);
         tf = new TwitterFactory(cb.build());
+        return null;
     }
 
     public static Twitter createConnection(){

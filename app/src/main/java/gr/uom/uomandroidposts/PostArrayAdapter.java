@@ -31,9 +31,8 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
     private List<Post> postList;
     private final LayoutInflater inflater;
     private final int layoutResource;
-
     private ListView postListView;
-
+    private List<Status> favList;
 
     public PostArrayAdapter(@NonNull Context context, int resource, @NonNull List<Post> objects,ListView listView) {
         super(context, resource, objects);
@@ -41,7 +40,6 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
         layoutResource = resource;
         inflater = LayoutInflater.from(context);
         postListView = listView;
-
     }
 
 
@@ -66,10 +64,12 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
 
         Post currentPost  = postList.get(position);
 
+
+
         viewHolder.username.setText(currentPost.getUsername()+"");
         viewHolder.post.setText(currentPost.getPost()+"");
-
-
+        viewHolder.favCount.setText(currentPost.getFavCount()+"");
+        viewHolder.tweetCount.setText(currentPost.getRetweetCount()+"");
 
         DownloadImageTask dlImage = new DownloadImageTask(viewHolder.postImage);
         if(currentPost.getPostImage()!="")
@@ -77,13 +77,25 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
             dlImage.execute(currentPost.getPostImage());
         }
 
-
-
        viewHolder.appIcon.setImageResource(R.drawable.twitterlogo);
 
 
         final int[] count = {0};
-        viewHolder.favButton.setBackgroundResource(R.drawable.notlikedbutton);
+
+
+
+        viewHolder.retweetButton.setBackgroundResource(R.drawable.retweet);
+        viewHolder.retweetButton.setFocusableInTouchMode(false);
+        viewHolder.retweetButton.setFocusable(false);
+
+
+        if(currentPost.isFavorited() == 1) {
+            viewHolder.favButton.setBackgroundResource(R.drawable.likebutton);
+            count[0] = 1;
+        }
+        else
+            viewHolder.favButton.setBackgroundResource(R.drawable.notlikedbutton);
+
         viewHolder.favButton.setFocusable(false);
         viewHolder.favButton.setFocusableInTouchMode(false);
         viewHolder.favButton.setOnClickListener(new View.OnClickListener() {
@@ -94,16 +106,26 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
 
                 Long tweetID = postList.get(position).getID();
 
+                Status status = null;
 
-                Status status;
                 try {
                     if(count[0] == 0) {
                         status = twitter.createFavorite(tweetID);
+                        if (currentPost.isFavorited() == 1)
+                            viewHolder.favCount.setText(currentPost.getFavCount() +"");
+                        else
+                            viewHolder.favCount.setText(currentPost.getFavCount()+1 +"");
                         count[0]++;
                         Toast.makeText(getContext(), "Tweet Liked", Toast.LENGTH_SHORT).show();
                         viewHolder.favButton.setBackgroundResource(R.drawable.likebutton);
                     }else{
                         status = twitter.destroyFavorite(tweetID);
+
+                        if(currentPost.isFavorited()==1){
+                            viewHolder.favCount.setText(currentPost.getFavCount()-1+"");
+                        }else
+                            viewHolder.favCount.setText(currentPost.getFavCount()+"");
+
                         count[0] = 0;
                         Toast.makeText(getContext(), "Tweet Unliked", Toast.LENGTH_SHORT).show();
                         viewHolder.favButton.setBackgroundResource(R.drawable.notlikedbutton);
@@ -121,9 +143,13 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
     private class ViewHolder{
         final TextView username;
         final TextView post;
+        final TextView favCount;
+        final TextView tweetCount;
         final ImageView postImage;
         final ImageView appIcon;
         final Button favButton;
+        final Button retweetButton;
+
 
         ViewHolder (View view){
             username = view.findViewById(R.id.usernameText);
@@ -131,12 +157,16 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
             postImage = view.findViewById(R.id.postImageView);
             appIcon = view.findViewById(R.id.appImageView);
             favButton = view.findViewById(R.id.favButton);
+            favCount = view.findViewById(R.id.favCount);
+            tweetCount = view.findViewById(R.id.retweetCount);
+            retweetButton = view.findViewById(R.id.retweetButton);
 
         }
     }
 
     public void setPostList(List<Post> postList) {
         this.postList = postList;
+        getFavorites(postList);
         postListView.setAdapter(this);
     }
 
@@ -163,6 +193,26 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
         protected void onPostExecute(Bitmap result) {
             //Glide.with(getContext()).load(result).into(bmImage);
             bmImage.setImageBitmap(result);
+        }
+    }
+
+    private void getFavorites(List<Post> postList){
+        Twitter twitter = TwitterFactoryCreator.createConnection();
+        List<Post> list = postList;
+
+        try {
+            favList = twitter.getFavorites();
+            for (Status fav : favList){
+                for (Post post : list){
+                    if(fav.getId() == post.getID()){
+                        post.setFavorited(1);
+                        post.setFavCount(post.getFavCount()+1);
+                    }
+
+                }
+            }
+        } catch (TwitterException e) {
+            e.printStackTrace();
         }
     }
 }

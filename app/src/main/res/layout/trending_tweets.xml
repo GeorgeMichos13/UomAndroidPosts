@@ -23,10 +23,21 @@
         android:id="@+id/trendingsTweets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Trending Tweets"
+        android:text="New Tweets"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/backButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="Back"
+        app:layout_constraintBottom_toBottomOf="@+id/trendingsTweets"
+        app:layout_constraintEnd_toStartOf="@+id/trendingsTweets"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
