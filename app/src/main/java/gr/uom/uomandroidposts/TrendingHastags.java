@@ -45,12 +45,14 @@ public class TrendingHastags extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String hastag =((TextView)view.findViewById(R.id.trendingHastag)).getText().toString();
 
-                Intent trendingTweets = new Intent(TrendingHastags.this, FreshTweets.class);
+                Intent trendingTweets = new Intent(TrendingHastags.this, FreshPosts.class);
                 trendingTweets.putExtra("keyword", hastag);
                 startActivity(trendingTweets);
 
             }
         });
+
+
 
 
         Twitter twitter = TwitterFactoryCreator.createConnection();
@@ -69,7 +71,7 @@ public class TrendingHastags extends Activity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent trendingTweets = new Intent(TrendingHastags.this, FreshTweets.class);
+                Intent trendingTweets = new Intent(TrendingHastags.this, FreshPosts.class);
 
                 keyword = keywordText.getText().toString();
                 if(keyword.equalsIgnoreCase("Enter your keyword hastag") || keyword.equalsIgnoreCase(" ")){
@@ -89,6 +91,13 @@ public class TrendingHastags extends Activity {
             }
         });
 
+        keywordText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                keywordText.setText("");
+            }
+        });
+
 
 
     }
@@ -102,7 +111,7 @@ public class TrendingHastags extends Activity {
             ArrayList<Post> trendList = new ArrayList<Post>();
 
             try {
-                trends = twitters[0].getPlaceTrends(23424833);//trends για ελλαδα
+                trends = twitters[0].getPlaceTrends(1);//trends για ελλαδα
             } catch (TwitterException e) {
                 e.printStackTrace();
             }
@@ -112,8 +121,12 @@ public class TrendingHastags extends Activity {
 
                 if (count < 10) {
                     Post post = new Post();
-                    post.setHastag(trend.getName());
-                    System.out.println(trend + "trend 123");
+                    String hashtag = trend.getName();
+                    if(hashtag.contains("#"))
+                    {
+                        hashtag = hashtag.substring(1);
+                    }
+                    post.setHastag(hashtag);
                     trendList.add(post);
                     count++;
                 }

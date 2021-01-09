@@ -4,38 +4,32 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.Serializable;
-import java.sql.SQLOutput;
-import java.util.AbstractSequentialList;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import twitter4j.MediaEntity;
-import twitter4j.Paging;
 import twitter4j.Query;
 import twitter4j.QueryResult;
-import twitter4j.Status;
-import twitter4j.Trend;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.User;
 
 import static java.lang.Integer.parseInt;
 
-public class FreshTweets extends Activity {
+public class FreshPosts extends Activity {
 
     private PostArrayAdapter postArrayAdapter;
     private String keyword;
     private Button backButton2;
+    private ArrayList<Post> postList = new ArrayList<Post>();
+    private static final int MAX_AVAILABLE = 1;
+    private final Semaphore available = new Semaphore(MAX_AVAILABLE, true);
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +37,14 @@ public class FreshTweets extends Activity {
         setContentView(R.layout.trending_tweets);
 
         ListView postListView = findViewById(R.id.postListView);
+        TextView textView = findViewById(R.id.keywordText);
         Twitter twitter = TwitterFactoryCreator.createConnection();
 
         PostsAsync task = new PostsAsync();
         task.execute(twitter);
+        PostsAsync2 task2 = new PostsAsync2();
+        task2.execute();
+
         List<Post> postList = (List<Post>)task.doInBackground(twitter);
 
 
@@ -55,7 +53,7 @@ public class FreshTweets extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Post tweet = postList.get(position);
-                Intent i = new Intent(FreshTweets.this, TweetsReplies.class);
+                Intent i = new Intent(FreshPosts.this, TweetsReplies.class);
                 i.putExtra("tweet", tweet);
                 startActivity(i);
 
@@ -84,16 +82,10 @@ public class FreshTweets extends Activity {
         @Override
         protected List<Post> doInBackground(Twitter... twitters)//ψαχνει για τα ποστ με query συνταγμα πχ
         {
-
-
-            ArrayList<Post> postList = new ArrayList<Post>();
             Intent i = getIntent();
             keyword = i.getStringExtra("keyword");
             Query query = new Query(keyword);
             QueryResult result = null;
-
-
-
             try {
                 result = twitters[0].search(query);
 
@@ -101,6 +93,11 @@ public class FreshTweets extends Activity {
                 e.printStackTrace();
             }
             for (twitter4j.Status status : result.getTweets()) {
+                try {
+                    available.acquire();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 Post post = new Post();
                 post.setUsername(status.getUser().getScreenName());
                 post.setID(status.getId());
@@ -133,9 +130,44 @@ public class FreshTweets extends Activity {
                 post.setFavCount(status.getFavoriteCount());
                 post.setRetweetCount(status.getRetweetCount());
                 postList.add(post);
+                available.release();
             }
             return postList;
         }
+
+        @Override
+        protected void onPostExecute(List<Post> list)
+        {
+
+            super.onPostExecute(list);
+            postArrayAdapter.setPostList(list);
+
+        }
+    }
+
+    private class PostsAsync2 extends AsyncTask<InstagramHashtagIdGetter, Integer, List<Post>>
+    {
+
+
+        @Override
+        protected List<Post> doInBackground(InstagramHashtagIdGetter... instagramHashtagIdGetters)//ψαχνει για τα ποστ με query συνταγμα πχ
+        {
+
+
+            Intent i = getIntent();
+            keyword = i.getStringExtra("keyword");
+            System.out.println(keyword);
+            try {
+                available.acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            InstagramHashtagIdGetter idGetter = new InstagramHashtagIdGetter(postList);
+            idGetter.getHashtagId(keyword);
+            available.release();
+            return postList;
+        }
+
 
         @Override
         protected void onPostExecute(List<Post> list)

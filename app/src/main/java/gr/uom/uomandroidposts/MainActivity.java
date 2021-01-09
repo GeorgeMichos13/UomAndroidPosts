@@ -9,12 +9,17 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import java.util.ArrayList;
 
 import static com.facebook.HttpMethod.GET;
 //import static gr.uom.uomandroidposts.R.string.twitter_access_token;
@@ -41,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
-
         createPostButton = findViewById(R.id.createPostButton);
         trendingsButton = findViewById(R.id.trendingsButton);
         loginButton = findViewById(R.id.login_button);

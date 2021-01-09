@@ -52,7 +52,7 @@
         </activity>
 
         <activity android:name=".CreatePost" />
-        <activity android:name=".FreshTweets" />
+        <activity android:name=".FreshPosts" />
         <activity android:name=".TrendingHastags" />
         <activity android:name=".TweetsReplies" />
     </application>
