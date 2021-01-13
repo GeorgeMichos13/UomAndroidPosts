@@ -36,7 +36,9 @@ public class InstagramPostGetter {
                                 post.setPost(captions.get(i));
                                 post.setUsername("InstagramUser");
                                 post.setPostImage(media.get(i));
+                                post.setApp("instagram");
                                 posts.add(post);
+
                             }
                         }
                     });

@@ -24,7 +24,6 @@ import java.util.List;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 
 public class PostArrayAdapter extends ArrayAdapter<Post> {
 
@@ -77,7 +76,13 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
             dlImage.execute(currentPost.getPostImage());
         }
 
-       viewHolder.appIcon.setImageResource(R.drawable.twitterlogo);
+        System.out.println("cba");
+       if("twitter".equals(currentPost.getApp())){
+           System.out.println("abc");
+           viewHolder.appIcon.setImageResource(R.drawable.twitterlogo);
+       }else if("instagram".equals(currentPost.getApp())){
+           viewHolder.appIcon.setImageResource(R.drawable.instagramlogo);
+       }
 
 
         final int[] count = {0};
@@ -101,13 +106,13 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
         viewHolder.favButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            if(currentPost.getApp().equals("twitter")){
                 Twitter twitter;
                 twitter = TwitterFactoryCreator.createConnection();
 
                 Long tweetID = postList.get(position).getID();
 
                 Status status = null;
-
                 try {
                     if(count[0] == 0) {
                         status = twitter.createFavorite(tweetID);
@@ -133,6 +138,14 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
                 } catch (TwitterException e) {
                     e.printStackTrace();
                 }
+            }else if(currentPost.getApp().equals("instagram")){
+                viewHolder.retweetButton.setVisibility(View.INVISIBLE);
+                viewHolder.tweetCount.setVisibility(View.INVISIBLE);
+                viewHolder.favButton.setVisibility(View.INVISIBLE);
+                viewHolder.favCount.setVisibility(View.INVISIBLE);
+            }
+
+
             }
         });
 

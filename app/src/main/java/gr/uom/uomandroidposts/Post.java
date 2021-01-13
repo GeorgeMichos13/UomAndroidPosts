@@ -1,12 +1,6 @@
 package gr.uom.uomandroidposts;
 
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.widget.ImageView;
-
 import java.io.Serializable;
-
-import twitter4j.Trend;
 
 public class Post implements Serializable {
 
@@ -15,9 +9,15 @@ public class Post implements Serializable {
     private String postImage;
     private String appIcon;
     private Long ID;
+    private String app;
     private int isFavorited;
     private long favCount;
     private long retweetCount;
+
+    public String getApp() { return app; }
+
+    public void setApp(String app) { this.app = app;}
+
 
     public long getRetweetCount() { return retweetCount; }
 

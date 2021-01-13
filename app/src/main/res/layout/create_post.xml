@@ -127,7 +127,7 @@
         android:id="@+id/instagramLogo"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:src="@drawable/instagramloco"
+        android:src="@drawable/instagramlogo"
         app:layout_constraintBottom_toBottomOf="@+id/instagramBox"
         app:layout_constraintEnd_toEndOf="@+id/instagramBox"
         app:layout_constraintTop_toTopOf="@+id/instagramBox"

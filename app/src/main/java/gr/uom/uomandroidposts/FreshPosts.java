@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,6 @@ public class FreshPosts extends Activity {
         setContentView(R.layout.trending_tweets);
 
         ListView postListView = findViewById(R.id.postListView);
-        TextView textView = findViewById(R.id.keywordText);
         Twitter twitter = TwitterFactoryCreator.createConnection();
 
         PostsAsync task = new PostsAsync();
@@ -53,11 +53,16 @@ public class FreshPosts extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Post tweet = postList.get(position);
-                Intent i = new Intent(FreshPosts.this, TweetsReplies.class);
-                i.putExtra("tweet", tweet);
-                startActivity(i);
+                if(tweet.getApp().equals("twitter")){
+                    Intent i = new Intent(FreshPosts.this, TweetsReplies.class);
+                    i.putExtra("tweet", tweet);
+                    startActivity(i);
+                }else if(tweet.getApp().equals("instagram")){
+                    Toast.makeText(FreshPosts.this, "Instagram API does not allow to get comments.", Toast.LENGTH_SHORT).show();
+                }
+                
 
-                System.out.println(tweet.isFavorited());
+                
 
             }
         });
@@ -125,8 +130,7 @@ public class FreshPosts extends Activity {
                         //System.out.println(m.getMediaURL());
                     }
                 }
-
-
+                post.setApp("twitter");
                 post.setFavCount(status.getFavoriteCount());
                 post.setRetweetCount(status.getRetweetCount());
                 postList.add(post);
@@ -175,7 +179,6 @@ public class FreshPosts extends Activity {
 
             super.onPostExecute(list);
             postArrayAdapter.setPostList(list);
-
         }
     }
 

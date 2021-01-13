@@ -92,7 +92,7 @@ public class TweetsReplies extends Activity {
                                     post.setPostImage(m.getMediaURL());
                                 }
                             }
-                            System.out.println(post.getPost() +"going in");
+                            post.setApp("twitter");
                             post.setID(tweet.getId());
                             repliesList.add(post);
 
@@ -111,6 +111,7 @@ public class TweetsReplies extends Activity {
                                             myReply.setPostImage(m.getMediaURL());
                                         }
                                     }
+                                    post.setApp("twitter");
                                     repliesList.add(myReply);
                                 }
                             }
