@@ -30,10 +30,16 @@ public class TrendingHastags extends Activity {
 
     public String keyword;
     private TrendingArrayAdapter trendArrayAdapter;
+    private String ck, ckS, aT, atS;
 
 
 
     protected void onCreate(Bundle savedInstanceState){
+
+        ck = getString(R.string.twitter_API_key);
+        ckS = getString(R.string.twitter_API_secret);
+        aT = getString(R.string.twitter_access_token);
+        atS = getString(R.string.twitter_access_token_secret);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trendings_hastags);
@@ -55,13 +61,12 @@ public class TrendingHastags extends Activity {
 
 
 
-        Twitter twitter = TwitterFactoryCreator.createConnection();
+        Twitter twitter = TwitterFactoryCreator.createConnection(ck ,ckS, aT, atS);
 
         TrendsAsync task = new TrendsAsync();
         task.execute(twitter);
 
-
-        trendArrayAdapter = new TrendingArrayAdapter(this, R.layout.list_trending_hastags, new ArrayList<Post>(), trendListView);
+        trendArrayAdapter = new TrendingArrayAdapter(this, R.layout.list_trending_hastags, new ArrayList<Post>(), trendListView,ck, ckS,aT,atS);
 
 
         searchButton = findViewById(R.id.searchButton);

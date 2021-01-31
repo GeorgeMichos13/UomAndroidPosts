@@ -20,13 +20,19 @@ public class TrendingArrayAdapter extends ArrayAdapter<Post> {
     private final LayoutInflater inflater;
     private final int layoutResource;
     private ListView trendListView;
+    private String ck, ckS, aT, atS;
 
-    public TrendingArrayAdapter(@NonNull Context context, int resource, @NonNull List<Post> objects, ListView listView) {
+
+    public TrendingArrayAdapter(@NonNull Context context, int resource, @NonNull List<Post> objects, ListView listView, String ck, String ckS, String aT, String atS) {
         super(context, resource, objects);
         postList = objects;
         inflater = LayoutInflater.from(context);
         layoutResource = resource;
         trendListView = listView;
+        this.ck = ck;
+        this.ckS = ckS;
+        this.aT = aT;
+        this.atS = atS;
     }
 
     @Override

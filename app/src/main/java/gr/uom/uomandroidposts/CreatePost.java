@@ -49,6 +49,7 @@ public class CreatePost extends Activity {
     private Button uploadImageButton;
     private Button uploadPostButton;
     private Button backButton;
+    private Button twitterFleetButton;
     private ImageView image;
     private EditText postText;
     private CheckBox twitterCheckBox;
@@ -61,8 +62,13 @@ public class CreatePost extends Activity {
     private ShareButton sbLink;
     private Bitmap bitmap=null;
     private TwitterFactoryCreator TFC;
+    private String ck, ckS, aT, atS;
 
     protected void onCreate(Bundle savedInstanceState) {
+        ck = getString(R.string.twitter_API_key);
+        ckS = getString(R.string.twitter_API_secret);
+        aT = getString(R.string.twitter_access_token);
+        atS = getString(R.string.twitter_access_token_secret);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_post);
         uploadPostButton = findViewById(R.id.uploadPostButton);
@@ -74,6 +80,7 @@ public class CreatePost extends Activity {
         sbLink = findViewById(R.id.shareButton);
         facebookCheckBox = findViewById(R.id.facebookBox);
         instagramCheckBox = findViewById(R.id.instagramBox);
+        twitterFleetButton = findViewById(R.id.twitterFleetButton);
 
         postText.setVisibility(View.INVISIBLE);
 
@@ -110,7 +117,7 @@ public class CreatePost extends Activity {
         uploadPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TFC.createFactory();
+                TFC.createFactory(ck , ckS, aT, atS);
                 TwitterFactory tf = TwitterFactoryCreator.getTwitterFactory();
                 Twitter twitter = tf.getInstance();
                 textToUpload = postText.getText().toString();
@@ -125,7 +132,7 @@ public class CreatePost extends Activity {
                     }
                     else
                     {
-                        Toast.makeText(CreatePost.this, "Please enter text.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreatePost.this, "Please enter text or photo.", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -163,7 +170,10 @@ public class CreatePost extends Activity {
                         shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         shareIntent.putExtra(Intent.EXTRA_STREAM,targetUri);
                         shareIntent.setPackage("com.instagram.android");
-                        startActivity(shareIntent);
+                        if(targetUriPath != null) {
+                            startActivity(shareIntent);
+                        }else
+                            Toast.makeText(CreatePost.this, "You must upload an image.", Toast.LENGTH_SHORT).show();
                     }
                     else
                         Toast.makeText(CreatePost.this, "You need to upload an image to post on instagram.", Toast.LENGTH_SHORT).show();
@@ -176,6 +186,23 @@ public class CreatePost extends Activity {
             @Override
             public void onClick(View v) {
                 postText.setText("");
+            }
+        });
+
+        twitterFleetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(twitterCheckBox.isChecked()){
+                    postText.setVisibility(View.INVISIBLE);
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("image/*");
+                    shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    shareIntent.putExtra(Intent.EXTRA_STREAM,targetUri);
+                    shareIntent.setPackage("com.twitter.android");
+                    startActivity(shareIntent);
+                }else{
+                    Toast.makeText(CreatePost.this, "Twitter checkbox must be checked.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

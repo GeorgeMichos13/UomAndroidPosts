@@ -31,21 +31,26 @@ public class FreshPosts extends Activity {
     private ArrayList<Post> postList = new ArrayList<Post>();
     private static final int MAX_AVAILABLE = 1;
     private final Semaphore available = new Semaphore(MAX_AVAILABLE, true);
+    private String ck, ckS, aT, atS;
 
 
     protected void onCreate(Bundle savedInstanceState) {
+        ck = getString(R.string.twitter_API_key);
+        ckS = getString(R.string.twitter_API_secret);
+        aT = getString(R.string.twitter_access_token);
+        atS = getString(R.string.twitter_access_token_secret);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trending_tweets);
 
         ListView postListView = findViewById(R.id.postListView);
-        Twitter twitter = TwitterFactoryCreator.createConnection();
+        Twitter twitter = TwitterFactoryCreator.createConnection(ck, ckS, aT, atS);
 
         PostsAsync task = new PostsAsync();
         task.execute(twitter);
         PostsAsync2 task2 = new PostsAsync2();
         task2.execute();
 
-        List<Post> postList = (List<Post>)task.doInBackground(twitter);
 
 
 
@@ -67,7 +72,7 @@ public class FreshPosts extends Activity {
             }
         });
 
-        postArrayAdapter = new PostArrayAdapter(this, R.layout.list_records_tweets, new ArrayList<Post>(), postListView);
+        postArrayAdapter = new PostArrayAdapter(this, R.layout.list_records_tweets, new ArrayList<Post>(), postListView, ck, ckS,aT,atS);
 
 
         backButton2 = findViewById(R.id.backButton2);
@@ -111,6 +116,7 @@ public class FreshPosts extends Activity {
                 } else if (status.getRetweetedStatus() == null) {
                     post.setPost(status.getText());
                 }
+                System.out.println(post.getPost());
 
                 //αποτελεσματα απο ποστς
                 //System.out.println("@" + status.getUser().getScreenName() + " : " + status.getText());
@@ -125,17 +131,15 @@ public class FreshPosts extends Activity {
                         //System.out.println(status.getUser().getScreenName());
                         //System.out.println(m.getMediaURL()); //get your url!
                     }
-                    else if (m.getType().equals("animated_gif")) {
-                        post.setPostImage(m.getMediaURL());
-                        //System.out.println(m.getMediaURL());
-                    }
                 }
                 post.setApp("twitter");
                 post.setFavCount(status.getFavoriteCount());
                 post.setRetweetCount(status.getRetweetCount());
                 postList.add(post);
+
                 available.release();
             }
+            System.out.println(postList.size());
             return postList;
         }
 

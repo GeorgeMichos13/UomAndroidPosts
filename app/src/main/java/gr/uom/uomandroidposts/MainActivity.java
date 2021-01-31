@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         //System.out.println(getString(R.string.twitter_API_key));
 
+        System.out.println(getString(R.string.twitter_API_key));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FacebookSdk.sdkInitialize(this.getApplicationContext());

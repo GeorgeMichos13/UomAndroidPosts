@@ -26,8 +26,13 @@ public class TweetsReplies extends Activity {
     private PostArrayAdapter repliesArrayAdapter;
     private ListView postListView;
     private Button backButton;
+    private String ck, ckS, aT, atS;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ck = getString(R.string.twitter_API_key);
+        ckS = getString(R.string.twitter_API_secret);
+        aT = getString(R.string.twitter_access_token);
+        atS = getString(R.string.twitter_access_token_secret);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trending_tweets);
 
@@ -52,7 +57,7 @@ public class TweetsReplies extends Activity {
         RepliesAsync task = new RepliesAsync();
         task.execute(tweet);
 
-        repliesArrayAdapter = new PostArrayAdapter(this, R.layout.list_records_tweets, new ArrayList<Post>(), postListView);
+        repliesArrayAdapter = new PostArrayAdapter(this, R.layout.list_records_tweets, new ArrayList<Post>(), postListView,ck,ckS,aT,atS);
 
     }
 
@@ -68,7 +73,7 @@ public class TweetsReplies extends Activity {
             try {
                 Query query = new Query("to:" + screenName + " since_id:" + tweetID);
                 QueryResult results;
-                Twitter twitter = TwitterFactoryCreator.createConnection();
+                Twitter twitter = TwitterFactoryCreator.createConnection(ck, ckS, aT, atS);
 
                 do {
                     results = twitter.search(query);

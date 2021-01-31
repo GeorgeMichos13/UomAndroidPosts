@@ -32,13 +32,18 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
     private final int layoutResource;
     private ListView postListView;
     private List<Status> favList;
+    private String ck, ckS, aT, atS;
 
-    public PostArrayAdapter(@NonNull Context context, int resource, @NonNull List<Post> objects,ListView listView) {
+    public PostArrayAdapter(@NonNull Context context, int resource, @NonNull List<Post> objects,ListView listView, String ck, String ckS, String aT, String atS) {
         super(context, resource, objects);
         postList = objects;
         layoutResource = resource;
         inflater = LayoutInflater.from(context);
         postListView = listView;
+        this.ck = ck;
+        this.ckS = ckS;
+        this.aT = aT;
+        this.atS = atS;
     }
 
 
@@ -76,9 +81,8 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
             dlImage.execute(currentPost.getPostImage());
         }
 
-        System.out.println("cba");
+
        if("twitter".equals(currentPost.getApp())){
-           System.out.println("abc");
            viewHolder.appIcon.setImageResource(R.drawable.twitterlogo);
        }else if("instagram".equals(currentPost.getApp())){
            viewHolder.appIcon.setImageResource(R.drawable.instagramlogo);
@@ -97,6 +101,7 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
         if(currentPost.isFavorited() == 1) {
             viewHolder.favButton.setBackgroundResource(R.drawable.likebutton);
             count[0] = 1;
+            System.out.println("edw");
         }
         else
             viewHolder.favButton.setBackgroundResource(R.drawable.notlikedbutton);
@@ -108,7 +113,7 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
             public void onClick(View v) {
             if(currentPost.getApp().equals("twitter")){
                 Twitter twitter;
-                twitter = TwitterFactoryCreator.createConnection();
+                twitter = TwitterFactoryCreator.createConnection(ck, ckS, aT, atS);
 
                 Long tweetID = postList.get(position).getID();
 
@@ -116,8 +121,9 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
                 try {
                     if(count[0] == 0) {
                         status = twitter.createFavorite(tweetID);
-                        if (currentPost.isFavorited() == 1)
-                            viewHolder.favCount.setText(currentPost.getFavCount() +"");
+                        if (currentPost.isFavorited() == 1) {
+                            viewHolder.favCount.setText(currentPost.getFavCount() + "");
+                        }
                         else
                             viewHolder.favCount.setText(currentPost.getFavCount()+1 +"");
                         count[0]++;
@@ -128,8 +134,10 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
 
                         if(currentPost.isFavorited()==1){
                             viewHolder.favCount.setText(currentPost.getFavCount()-1+"");
-                        }else
-                            viewHolder.favCount.setText(currentPost.getFavCount()+"");
+
+                        }else {
+                            viewHolder.favCount.setText(currentPost.getFavCount() + "");
+                        }
 
                         count[0] = 0;
                         Toast.makeText(getContext(), "Tweet Unliked", Toast.LENGTH_SHORT).show();
@@ -209,8 +217,9 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
         }
     }
 
-    private void getFavorites(List<Post> postList){
-        Twitter twitter = TwitterFactoryCreator.createConnection();
+    public void getFavorites(List<Post> postList){
+
+        Twitter twitter = TwitterFactoryCreator.createConnection(ck, ckS, aT,atS);
         List<Post> list = postList;
 
         try {
@@ -219,7 +228,7 @@ public class PostArrayAdapter extends ArrayAdapter<Post> {
                 for (Post post : list){
                     if(fav.getId() == post.getID()){
                         post.setFavorited(1);
-                        post.setFavCount(post.getFavCount()+1);
+                        post.setFavCount(fav.getFavoriteCount());
                     }
 
                 }
